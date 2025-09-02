@@ -9,6 +9,39 @@
     href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* two per row */
+      gap: 20px;
+      margin-top: 20px;
+    }
+    figure {
+      text-align: center;
+      margin: 0;
+    }
+    figcaption {
+      font-size: 14px;
+      color: #555;
+      margin-top: 6px;
+    }
+    /* Responsive: one per row on small screens */
+    @media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -17,6 +50,41 @@
       <h1>CS 180 Project 0</h1>
       <b>By Justin Zhou</b>
     </div>
+  </div>
+
+  <!-- Part 1 -->
+  <h2>Part 1</h2>
+  <div class="gallery">
+    <figure>
+      <img src="media/p11.jpg" alt="Photo 1" width="300">
+      <figcaption>Photo 1: Zoomed in picture of me.</figcaption>
+    </figure>
+    <figure>
+      <img src="media/p12.png" alt="Photo 2" width="300">
+      <figcaption>Photo 2: Close up of my face.</figcaption>
+    </figure>
+  </div>
+
+  <!-- Part 2 -->
+  <h2>Part 2</h2>
+  <div class="gallery">
+    <figure>
+      <img src="media/p22.jpg" alt="Funny animation" width="300">
+      <figcaption>Photo 1: Zoomed in picture.</figcaption>
+    </figure>
+    <figure>
+      <img src="media/p21.jpg" alt="Logo" width="200">
+      <figcaption>Photo 2: Unzoomed picture</figcaption>
+    </figure>
+  </div>
+
+  <!-- Part 3 -->
+  <h2>Part 3</h2>
+  <div class="gallery">
+    <figure>
+      <img src="media/laptopdolly.gif" alt="gif" width="540">
+      <figcaption>gif: My attempt at a dolly zoom.</figcaption>
+    </figure>
   </div>
 </body>
 
