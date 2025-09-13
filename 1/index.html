@@ -55,6 +55,10 @@
   <h2>Overview</h2>
   <p>This project draws on the work of Sergei Mikhailovich Prokudin-Gorskii, who used a three-filter technique to capture color photographs on glass plates across the Russian Empire starting in 1907. Though his projection plans never materialized, his negatives were preserved and acquired by the Library of Congress in 1948, offering a vivid record of late Imperial Russia.</p>
 
+  <h2>Approach</h2>
+  <p>For this project, I reconstructed colour images from Prokudin-Gorskii’s collection by separating the stacked grayscale channels and aligning them to form a coloured image. I split the input into three equal parts corresponding to the blue, green, and red channels. To align the channels, I used a normalized cross-correlation (NCC)–based search that shifts one channel relative to a reference and evaluates the match quality. For larger images, I applied a multiscale image pyramid approach where the channels were progressively downsampled, aligned at coarse resolutions, and then refined at finer scales. After computing the optimal shifts, I realigned the green and red channels to the blue channel and stacked them to produce the final colour image.</p>
+
+
   <!-- Gallery -->
   <h2>Gallery</h2>
   <div class="gallery">
@@ -67,54 +71,75 @@
       <figcaption>Church: shift for G: (25, 3), shift for R: (58, -5)</figcaption>
     </figure>
     <figure>
-      <img src="media/emir.jpg" alt="Photo 1" width="300">
+      <img src="media/emir.jpg" alt="Photo 3" width="300">
       <figcaption>Emir: shift for G: (49, 23), shift for R: (107, 40)</figcaption>
     </figure>
     <figure>
-      <img src="media/harvesters.jpg" alt="Photo 2" width="300">
+      <img src="media/harvesters.jpg" alt="Photo 4" width="300">
       <figcaption>Harvester: shift for G: (59, 10), shift for R: (120, 7)</figcaption>
     </figure>
     <figure>
-      <img src="media/icon.jpg" alt="Photo 1" width="300">
+      <img src="media/icon.jpg" alt="Photo 5" width="300">
       <figcaption>Icon: shift for G: (42, 16), shift for R: (89, 22)</figcaption>
     </figure>
     <figure>
-      <img src="media/italil.jpg" alt="Photo 2" width="300">
+      <img src="media/italil.jpg" alt="Photo 6" width="300">
       <figcaption>Italil: shift for G: (38, 18), shift for R: (78, 34)</figcaption>
     </figure>
     <figure>
-      <img src="media/lastochikino.jpg" alt="Photo 1" width="300">
+      <img src="media/lastochikino.jpg" alt="Photo 7" width="300">
       <figcaption>Loschikinos: shift for G: (-3, 0), shift for R: (75, -10)</figcaption>
     </figure>
     <figure>
-      <img src="media/lugano.jpg" alt="Photo 2" width="300">
+      <img src="media/lugano.jpg" alt="Photo 8" width="300">
       <figcaption>Lugano: shift for G: (10, -10), shift for R: (63, -28)</figcaption>
     </figure>
     <figure>
-      <img src="media/melons.jpg" alt="Photo 1" width="300">
+      <img src="media/melons.jpg" alt="Photo 9" width="300">
       <figcaption>Melons: shift for G: (83, 4), shift for R: (167, 3)</figcaption>
     </figure>
     <figure>
-      <img src="media/monastery.jpg" alt="Photo 2" width="300">
+      <img src="media/monastery.jpg" alt="Photo 10" width="300">
       <figcaption>Monastery: shift for G: (-3, 1), shift for R: (3, 2)</figcaption>
     </figure>
     <figure>
-      <img src="media/self_por.jpg" alt="Photo 1" width="300">
+      <img src="media/self_por.jpg" alt="Photo 11" width="300">
       <figcaption>Self Portrait: shift for G: (59, -2), shift for R: (138, -4)</figcaption>
     </figure>
     <figure>
-      <img src="media/sirens.jpg" alt="Photo 2" width="300">
+      <img src="media/sirens.jpg" alt="Photo 12" width="300">
       <figcaption>Sirens: shift for G: (48, -7), shift for R: (97, -21)</figcaption>
     </figure>
     <figure>
-      <img src="media/three_gen.jpg" alt="Photo 1" width="300">
+      <img src="media/three_gen.jpg" alt="Photo 13" width="300">
       <figcaption>Three Generations: shift for G: (52, 5), shift for R: (108, 7)</figcaption>
     </figure>
     <figure>
-      <img src="media/tobolsk.jpg" alt="Photo 2" width="300">
+      <img src="media/tobolsk.jpg" alt="Photo 14" width="300">
       <figcaption>Tobolski: shift for G: (3, 2), shift for R: (6, 3)</figcaption>
     </figure>
   </div>
+
+  <!-- Gallery -->
+  <h2>Prokudin-Gorskii collection</h2>
+  <div class="gallery">
+    <figure>
+      <img src="media/4ppl.jpg" alt="Photo 1" width="300">
+      <figcaption>Four people seated on a carpet, in front of a backdrop of textiles: shift for G: (5, 2), shift for R: (12, 3)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/bridgeboy.jpg" alt="Photo 2" width="300">
+      <figcaption>Na ostrovi︠e︡ Kapri: shift for G: (4, -1), shift for R: (10, -2)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/npo.jpg" alt="Photo 3" width="300">
+      <figcaption>Napoleon: shift for G: (6, 1), shift for R: (14, 0)</figcaption>
+    </figure>
+  </div>
+
+  <h2>Common Issues</h2>
+  <p>Some common issue I encountered were when the outer edges of the original input file were not cropped before dividing into three equal sections, which often led to misalignment and color artifacts in the reconstructed image. Another issue that came up when I was choosing my own examples was when the source image had too few pixels or insufficient resolution, making it difficult for my algorithm to detect reliable patterns. This often results in distorted reconstructions.</p>
+
 
 </body>
 
