@@ -42,7 +42,7 @@
   </style>
 </head>
 <body>
-  <h1>CS180 Project 2: Image Blending and Pyramid Representations</h1>
+  <h1>CS180 gProject 2: Image Blending and Pyramid Representations</h1>
   <b>By Justin Zhou</b>
 
   <h2>1.1 Convolutions from Scratch</h2>
@@ -51,16 +51,20 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="data/dog.jpg" alt="Dog image">
-      <figcaption>Dog (low frequencies)</figcaption>
+      <img src="media/me.jpg" alt="Me normal">
+      <figcaption>Me</figcaption>
     </figure>
     <figure>
-      <img src="data/cat.jpg" alt="Cat image">
-      <figcaption>Cat (high frequencies)</figcaption>
+      <img src="media/me_x.jpg" alt="Cat image">
+      <figcaption>Me (D_x)</figcaption>
     </figure>
     <figure>
-      <img src="results/hybrid.jpg" alt="Hybrid image">
-      <figcaption>Hybrid Result (Dog + Cat)</figcaption>
+      <img src="media/me_y.jpg" alt="Hybrid image">
+      <figcaption>Me(D_y)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/me_box.jpg" alt="Hybrid image">
+      <figcaption>Me (Box filter)</figcaption>
     </figure>
   </div>
 
@@ -70,16 +74,24 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="results/dx.png" alt="dx result">
-      <figcaption>Partial Derivative (dx)</figcaption>
+      <img src="media/camerman.png" alt="dx result">
+      <figcaption>Original</figcaption>
     </figure>
     <figure>
-      <img src="results/dy.png" alt="dy result">
+      <img src="media/camera_x.jpg" alt="dy result">
       <figcaption>Partial Derivative (dy)</figcaption>
     </figure>
     <figure>
-      <img src="results/gradmag.png" alt="Gradient magnitude">
+      <img src="media/camera_y.jpg" alt="Gradient magnitude">
+      <figcaption>Partial Derivative (dy)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/camera_mag.jpg" alt="dy result">
       <figcaption>Gradient Magnitude</figcaption>
+    </figure>
+    <figure>
+      <img src="media/camera_mag.jpg" alt="Gradient magnitude">
+      <figcaption>Edge Map</figcaption>
     </figure>
   </div>
 
@@ -90,16 +102,8 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="results/dog_dx.png" alt="DoG dx">
-      <figcaption>DoG in x-direction</figcaption>
-    </figure>
-    <figure>
-      <img src="results/dog_dy.png" alt="DoG dy">
-      <figcaption>DoG in y-direction</figcaption>
-    </figure>
-    <figure>
-      <img src="results/dog_gradmag.png" alt="DoG gradient magnitude">
-      <figcaption>DoG Gradient Magnitude</figcaption>
+      <img src="media/part13.jpg" alt="DoG dx">
+      <figcaption>DoG</figcaption>
     </figure>
   </div>
 
@@ -109,12 +113,24 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="data/taj.jpg" alt="Original Taj Mahal">
+      <img src="media/taj.jpg" alt="Original Taj Mahal">
       <figcaption>Original Taj Mahal</figcaption>
     </figure>
     <figure>
-      <img src="results/taj_sharpened.jpg" alt="Sharpened Taj Mahal">
+      <img src="media/taj_blurred.png" alt="Sharpened Taj Mahal">
+      <figcaption>Blurred Taj Mahal</figcaption>
+    </figure>
+    <figure>
+      <img src="media/taj_sharp.png" alt="Sharpened Taj Mahal">
       <figcaption>Sharpened Taj Mahal</figcaption>
+    </figure>
+    <figure>
+      <img src="media/blurrykid.jpg" alt="Original Taj Mahal">
+      <figcaption>Kid</figcaption>
+    </figure>
+    <figure>
+      <img src="media/kid_sharp.jpg" alt="Sharpened Taj Mahal">
+      <figcaption>Sharpened Kid</figcaption>
     </figure>
   </div>
 
@@ -124,15 +140,15 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="data/apple.jpg" alt="Apple">
+      <img src="media/apple.jpeg" alt="Apple">
       <figcaption>Apple (low frequencies)</figcaption>
     </figure>
     <figure>
-      <img src="data/orange.jpg" alt="Orange">
+      <img src="media/orange.jpeg" alt="Orange">
       <figcaption>Orange (high frequencies)</figcaption>
     </figure>
     <figure>
-      <img src="results/orapple.jpg" alt="Orapple hybrid">
+      <img src="media/oraple.png" alt="Orapple hybrid">
       <figcaption>Hybrid: Orapple</figcaption>
     </figure>
   </div>
@@ -158,12 +174,29 @@
   </p>
   <div class="gallery">
     <figure>
-      <img src="results/blend_orapple.png" alt="Orapple blend">
-      <figcaption>Orapple Blend</figcaption>
+      <img src="media/apple.jpeg" alt="Apple">
+      <figcaption>Apple (low frequencies)</figcaption>
     </figure>
     <figure>
-      <img src="results/blend_sunset.png" alt="Sunset blend">
-      <figcaption>Sunset Blend</figcaption>
+      <img src="media/orange.jpeg" alt="Orange">
+      <figcaption>Orange (high frequencies)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/oraple.png" alt="Orapple hybrid">
+      <figcaption>Hybrid: Orapple</figcaption>
+    </figure>
+    <div class="gallery">
+    <figure>
+      <img src="media/fhrome.png" alt="Apple">
+      <figcaption>Firefox and Chrome(didnt turn out well since Firefox isnt a circle)</figcaption>
+    </figure>
+    <figure>
+      <img src="media/mupiter.png" alt="Orange">
+      <figcaption>Mars and Jupiter</figcaption>
+    </figure>
+    <figure>
+      <img src="media/ucba.png" alt="Orapple hybrid">
+      <figcaption>UCBA: Combination of UCLA and Berkeley</figcaption>
     </figure>
   </div>
 
