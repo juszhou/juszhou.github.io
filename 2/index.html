@@ -41,7 +41,9 @@
     height: auto;
     display: block;
   }
-  /* Responsive: one per row on small screens */
+  .large-img {
+  width: 900px; 
+}
   @media (max-width: 600px) {
     .gallery {
       grid-template-columns: 1fr;
@@ -60,8 +62,7 @@
 
   <h2>1.1 Convolutions from Scratch</h2>
   <p>
-    TODO:
-  </p>
+For this part of the project, I implemented a 2D convolution with one being four for loop and the other two. I applied them to a grayscale selfie using a 9×9 box filter and Dx/Dy operators.  </p>
   <div class="gallery">
     <figure>
       <img src="media/me.jpg" alt="Me normal">
@@ -80,10 +81,41 @@
       <figcaption>Me (Box filter)</figcaption>
     </figure>
   </div>
+  <h3>Code Snippets</h3>
+        <pre><code>def conv2d_4loops(img, kernel):
+    H, W = img.shape
+    h, w = kernel.shape
+    padH, padW = h // 2, w // 2
+    
+    padding = np.pad(img, ((padH, padH), (padW, padW)), mode='constant')
+    out = np.zeros_like(img)
+
+    for i in range(H):
+        for j in range(W):
+            temp = 0
+            for m in range(h):
+                for n in range(w):
+                    temp += kernel[m, n] * padding[i + m, j + n]
+            out[i, j] = temp
+    return out
+
+def conv2d_2loops(img, kernel):
+    H, W = img.shape
+    h, w = kernel.shape
+    pad_h, pad_w = h // 2, w // 2
+    padding = np.pad(img, ((pad_h, pad_h), (pad_w, pad_w)))
+    out = np.zeros_like(img)
+    for i in range(H):
+        for j in range(W):
+            region = padding[i:i + h, j:j + w]
+            out[i, j] = np.sum(region * kernel)
+    return out
+</code></pre>
+<p>Both iterative convolution functions have zero-padding to preserve dimensions. The four for loop version is significantly than the two for loop one, and both are much slower than <code>scipy.signal.convolve2d</code>, though they produce identical results which is hard to see because of the image quality.</p>
 
   <h2>1.2 Finite Difference Operator</h2>
   <p>
-    To detect edges, I applied finite difference operators in the x and y directions, then combined them to form the gradient magnitude.
+    For this section, I applied Dx and Dy to the provided cameraman image to compute partial derivatives, combined them to obtain the gradient magnitude, and binarized it with a chosen threshold to produce a clean edge map.
   </p>
   <div class="gallery">
     <figure>
@@ -110,20 +142,22 @@
 
   <h2>1.3 Derivative of Gaussian (DoG) Filter</h2>
   <p>
-    By convolving the image with a Gaussian before applying derivatives, I obtained smoother edges. 
-    Alternatively, the Gaussian derivative can be precomputed and applied directly, yielding equivalent results.
+    To improve the results from the previous section, I was tasked to reduced noise by smoothing with a Gaussian filter before applying Dx and Dy and then verifying the convolution properties by convolving Gaussian with the derivative filters.
   </p>
   <div class="gallery">
     <figure>
-      <img src="media/part13.jpg" alt="DoG dx" width="900">
+      <img src="media/part13.jpg" alt="DoG dx" class="large-img">
       <figcaption>DoG</figcaption>
     </figure>
   </div>
+  <p>Compared to the finite difference operator, the DoG filter produced a cleaner edge map by reducing background noise while preserving main edges.</p>
 
   <h2>2.1 Image Sharpening</h2>
   <p>
-    Sharpening was implemented by boosting the high-frequency components extracted with a Gaussian blur.
-  </p>
+In this section, image sharpening was performed using the unsharp mask filter. 
+This process enhances high-frequency details by subtracting a Gaussian-blurred version from the original image and adding the difference back. 
+Comparing the results, I noted that the filter failed to recover image quality after being put through the transformation sequence, 
+showing that this process does not restore the information lost from blurring.  </p>
   <div class="gallery">
     <figure>
       <img src="media/taj.jpg" alt="Original Taj Mahal">
@@ -146,30 +180,47 @@
       <figcaption>Sharpened Kid</figcaption>
     </figure>
   </div>
-
+  <p>With the original image, being quite blurry. I can see some improvements from the original image or perhaps it is all placebo.</p>
   <h2>2.2 Hybrid Images</h2>
   <p>
-    Here are more examples of hybrid images constructed by combining low and high frequencies.
+    Here are some hybrid images, I constructed by combining low and high frequencies.
   </p>
   <div class="gallery">
     <figure>
-      <img src="media/apple.jpeg" alt="Apple">
-      <figcaption>Apple (low frequencies)</figcaption>
+      <img src="media/elon.jpg" alt="Apple">
+      <figcaption>Elon (a controversial figure)</figcaption>
     </figure>
     <figure>
-      <img src="media/orange.jpeg" alt="Orange">
-      <figcaption>Orange (high frequencies)</figcaption>
+      <img src="media/zuckv2.jpeg" alt="Orange">
+      <figcaption>Mark Zuckerberg (another figure...)</figcaption>
     </figure>
     <figure>
-      <img src="media/oraple.png" alt="Orapple hybrid">
-      <figcaption>Hybrid: Orapple</figcaption>
+      <img src="media/mkt.jpeg" alt="Apple">
+      <figcaption>Mike Tyson</figcaption>
     </figure>
+    <figure>
+      <img src="media/wls.jpeg" alt="Orange">
+      <figcaption>Will Smith</figcaption>
+    </figure>
+    <figure>
+      <img src="media/zucklon.jpg" alt="Orapple hybrid">
+      <figcaption>Zucklon: Elon and Zuck</figcaption>
+    </figure>
+    <figure>
+      <img src="media/zucklonfft.jpg" alt="Orapple hybrid">
+      <figcaption>FFT of Elon and Zuck</figcaption>
+    </figure>
+    <figure>
+      <img src="media/willsmithmiketyson.jpg" alt="Orapple hybrid">
+      <figcaption>Will Smith and Mike Tyson, I think this one turned out worse because Will Smith had a different posture compared to Tyson</figcaption>
+    </figure>
+    <figure>
+      <img src="media/wlsmktfft.jpg" alt="Orapple hybrid">
+      <figcaption>FFT of Smith and Tyson</figcaption>
+      </figure>
   </div>
 
   <h2>2.3 Gaussian and Laplacian Stacks</h2>
-  <p>
-    To visualize frequency content at different scales, I implemented Gaussian and Laplacian stacks.
-  </p>
   <div class="gallery">
     <figure>
       <img src="results/gaussian_stack.png" alt="Gaussian stack">
@@ -183,7 +234,7 @@
 
   <h2>2.4 Multiresolution Blending</h2>
   <p>
-    Using Laplacian stacks, I performed seamless blending between pairs of images. The apple and orange form the classic “orapple” example.
+Here are some Hybrid Images:
   </p>
   <div class="gallery">
     <figure>
