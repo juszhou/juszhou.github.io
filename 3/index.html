@@ -155,14 +155,23 @@
 
   <h2>A.3 Warp the Images</h2>
   <p>
-  </p>
+Now we warp the images using the previously recovered homography matrix. There are two main methods for mapping pixels from the original image to the warped image:
+</p>
+
+<div style="margin-left: 20px;">
+  <p><strong>Nearest Neighbor Interpolation</strong><br>
+  Each output pixel takes the value of the closest pixel from the original image. This method is simple and fast but can produce blocky artifacts, especially at lower resolutions.</p>
+
+  <p><strong>Bilinear Interpolation</strong><br>
+  Each output pixel is computed as a weighted average of the four nearest pixels from the original image. This produces smoother results and is preferred when visual quality matters, though it is slightly more computationally expensive.</p>
+  <p>Here are the results:</p>
   <div class="gallery">
     <figure>
       <img src="media/IMG_1343.jpg" alt="">
       <figcaption>Original</figcaption>
     </figure>
     <figure>
-      <img src="pics/warpedwall.jpg" alt="">
+      <img src="pics/warpedwall.png" alt="">
       <figcaption>Warped</figcaption>
     </figure>
     <figure>
@@ -184,6 +193,18 @@
   </div>
 
   <h2>A.4 Blend the Images into a Mosaic</h2>
+  <p>For the final section of part A, we blend multiple images that share the same center of perspective into a mosaic. To reduce edge artifacts, we use alpha masking. The procedure follows these steps:
+</p>
+<ol style="margin-left: 20px;">
+  <li>Determine the Canvas Size</li>
+  <li>Place Warped Images on the Canvas</li>
+  <li>Create Alpha Masks for Blending</li>
+  <li>Apply Masks and Ignore Black Pixels</li>
+  <li>Weighted Averaging for Blending</li>
+  <li>Crop to Nonzero Regions</li>
+</ol>
+
+<p>Below are the results:</p>
   <div class="gallery3">
     <figure>
       <img src="media/IMG_1341.jpg" alt="">
