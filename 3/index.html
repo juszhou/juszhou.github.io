@@ -56,7 +56,7 @@
     display: block;
   }
   .large-img {
-  width: 1100px; 
+  width: 450px; 
 }
   @media (max-width: 600px) {
     .gallery {
@@ -110,8 +110,47 @@
   
   <h2>A.2 Recover Homographies</h2>
   <p>
-    Here is the matrix \( A \):
+    To stitch images together, we implement a homography function to recover the transformation between the left and right images.
+    By selecting corresponding points in both images and solving a system of equations, we compute the homography matrix.
+This matrix allows us to project one image into the coordinate system of the other, aligning them so they appear on the same plane.
+For example, for the pair of images from apartment shown above, the resulting homography matrix is:
   </p>
+   <p>
+    \[
+    H = \begin{bmatrix}
+    2.18410571 & -0.23194388 & -2662.939733 \\
+    0.40267535 & 1.62936492 & -1111.072452 \\
+    0.0002844713 & -0.00007463335 & 1
+    \end{bmatrix}
+    \]
+  </p>
+  <p><p>
+For each pair of corresponding points \((x, y) \leftrightarrow (x', y')\), the following two equations are added:
+</p>
+<p>
+\[
+\begin{cases}
+x' = \frac{h_1 x + h_2 y + h_3}{h_7 x + h_8 y + h_9} \\
+y' = \frac{h_4 x + h_5 y + h_6}{h_7 x + h_8 y + h_9}
+\end{cases}
+\]
+</p>
+
+<p>
+Stacking all correspondences gives the linear system in the form:
+</p>
+<p>
+\[
+A \mathbf{h} = 0
+\]
+</p>
+<p>
+where \(\mathbf{h} = [h_1, h_2, h_3, h_4, h_5, h_6, h_7, h_8, h_9]^T\) is the vectorized homography matrix.
+</p>
+
+<p>
+For our 8 pairs of points, the explicit \(A\) matrix is:
+</p></p>
   <p>
     \[
     A = \begin{bmatrix}
@@ -137,15 +176,7 @@
   <p>
     Here is the homography matrix \( H \):
   </p>
-  <p>
-    \[
-    H = \begin{bmatrix}
-    2.18410571 & -0.23194388 & -2662.939733 \\
-    0.40267535 & 1.62936492 & -1111.072452 \\
-    0.0002844713 & -0.00007463335 & 1
-    \end{bmatrix}
-    \]
-  </p>
+
 
   <div class="gallery">
     <figure>
