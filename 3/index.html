@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CS180 Project 2: Image Blending and Pyramid Representations</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+ <style>
+  body {
+    font-family: 'Open Sans', sans-serif;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+  }
+  h2 {
+    margin-top: 40px;
+    text-align: center;
+  }
+  h3 {
+    margin-top: 50px;
+    text-align: center;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  figure {
+    text-align: center;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers the image horizontally */
+  }
+  figcaption {
+    font-size: 14px;
+    color: #555;
+    margin-top: 6px;
+  }
+  img {
+    width: 300px;
+    height: auto;
+    display: block;
+  }
+  .large-img {
+  width: 1100px; 
+}
+  @media (max-width: 600px) {
+    .gallery {
+      grid-template-columns: 1fr;
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>
+
+</head>
+<body>
+  <h1>CS 180 Project 3: Stitching Photo Mosaics</h1>
+  <b>By Justin Zhou</b>
+
+  <h3>Part A: Image Warping and Mosaicing
+</h3>
+
+  <h2>A.1 Shoot the Pictures</h2>
+  <p>
+    The following images were taken in/from my apartment and at Mosaic Boulders.
+ </p>
+  <div class="gallery">
+    <figure>
+      <img src="media/IMG_1341.jpg" alt="">
+      <figcaption>Image 1 of a bouldering wall</figcaption>
+    </figure>
+    <figure>
+      <img src="media/IMG_1343.jpg" alt="Cat image">
+      <figcaption>Image 2 of a bouldering wall</figcaption>
+    </figure>
+    <figure>
+      <img src="media/IMG_1345.jpg" alt="Hybrid image">
+      <figcaption>Image 1 of my messy kitchen</figcaption>
+    </figure>
+    <figure>
+      <img src="media/IMG_1346.jpg" alt="Hybrid image">
+      <figcaption>Image 2 of my messy kitchen</figcaption>
+    </figure>
+    <figure>
+      <img src="media/IMG_1347.jpg" alt="Hybrid image">
+      <figcaption>Image 1 of my apartment view</figcaption>
+    </figure>
+    <figure>
+      <img src="media/IMG_1348.jpg" alt="Hybrid image">
+      <figcaption>Image 2 of my apartment view</figcaption>
+    </figure>
+  </div>
+  
+  <h2>A.2 Recover Homographies</h2>
+  <p>
+    Here is the Homography and A matrix
+  </p>
+  <p>
+    Here is the matrix \( A \):
+  </p>
+  <p>
+    \[
+    A = \begin{bmatrix}
+    -3.154e3 & -1.967e3 & -1 & 0 & 0 & 0 & 2.548432e6 & 1.589336e6 & 8.08e2 \\
+    0 & 0 & 0 & -3.154e3 & -1.967e3 & -1 & 5.970522e6 & 3.723531e6 & 1.893e3 \\
+    -2.672e3 & -1.684e3 & -1 & 0 & 0 & 0 & 5.66464e5 & 3.57008e5 & 2.12e2 \\
+    0 & 0 & 0 & -2.672e3 & -1.684e3 & -1 & 4.325968e6 & 2.726396e6 & 1.619e3 \\
+    -3.054e3 & -2.61e3 & -1 & 0 & 0 & 0 & 1.988154e6 & 1.69911e6 & 6.51e2 \\
+    0 & 0 & 0 & -3.054e3 & -2.61e3 & -1 & 7.86405e6 & 6.72075e6 & 2.575e3 \\
+    -2.554e3 & -1.541e3 & -1 & 0 & 0 & 0 & 3.3202e5 & 2.0033e5 & 1.3e2 \\
+    0 & 0 & 0 & -2.554e3 & -1.541e3 & -1 & 3.69053e6 & 2.226745e6 & 1.445e3 \\
+    -2.85e3 & -1.441e3 & -1 & 0 & 0 & 0 & 1.5105e6 & 7.6373e5 & 5.3e2 \\
+    0 & 0 & 0 & -2.85e3 & -1.441e3 & -1 & 3.8475e6 & 1.94535e6 & 1.35e3 \\
+    -3.232e3 & -1.435e3 & -1 & 0 & 0 & 0 & 3.073632e6 & 1.364685e6 & 9.51e2 \\
+    0 & 0 & 0 & -3.232e3 & -1.435e3 & -1 & 4.401984e6 & 1.95447e6 & 1.362e3 \\
+    -3.575e3 & -3.021e3 & -1 & 0 & 0 & 0 & 4.193475e6 & 3.543633e6 & 1.173e3 \\
+    0 & 0 & 0 & -3.575e3 & -3.021e3 & -1 & 1.0506925e7 & 8.878719e6 & 2.939e3 \\
+    -3.384e3 & -1.527e3 & -1 & 0 & 0 & 0 & 3.614112e6 & 1.630836e6 & 1.068e3 \\
+    0 & 0 & 0 & -3.384e3 & -1.527e3 & -1 & 4.900032e6 & 2.211096e6 & 1.448e3
+    \end{bmatrix}
+    \]
+  </p>
+  <p>
+    Here is the homography matrix \( H \):
+  </p>
+  <p>
+    \[
+    H = \begin{bmatrix}
+    2.18410571 & -0.23194388 & -2662.939733 \\
+    0.40267535 & 1.62936492 & -1111.072452 \\
+    0.0002844713 & -0.00007463335 & 1
+    \end{bmatrix}
+    \]
+  </p>
+
+  <div class="gallery">
+    <figure>
+      <img src="pics/file.jpg" alt="points on sitched image">
+    </figure>
+      </div>
+
+  <h2>A.3 Warp the Images</h2>
+  <p>
+    To improve the results from the previous section, I was tasked to reduced noise by smoothing with a Gaussian filter before applying Dx and Dy and then verifying the convolution properties by convolving Gaussian with the derivative filters.
+  </p>
+  <div class="gallery">
+    <figure>
+      <img src="media/part13.jpg" alt="DoG dx" class="large-img">
+      <figcaption>DoG</figcaption>
+    </figure>
+  </div>
+  <p>Compared to the finite difference operator, the DoG filter produced a cleaner edge map by reducing background noise while preserving main edges.</p>
+
+  <h2>A.4 Blend the Images into a Mosaic</h2>
+  <p>
+In this section, image sharpening was performed using the unsharp mask filter. 
+This process enhances high-frequency details by subtracting a Gaussian-blurred version from the original image and adding the difference back. 
+Comparing the results, I noted that the filter failed to recover image quality after being put through the transformation sequence, 
+showing that this process does not restore the information lost from blurring.  </p>
+  <div class="gallery">
+    <figure>
+      <img src="media/taj.jpg" alt="Original Taj Mahal">
+      <figcaption>Original Taj Mahal</figcaption>
+    </figure>
+    <figure>
+      <img src="media/taj_blurred.png" alt="Sharpened Taj Mahal">
+      <figcaption>Blurred Taj Mahal</figcaption>
+    </figure>
+    <figure>
+      <img src="media/taj_sharp.png" alt="Sharpened Taj Mahal">
+      <figcaption>Sharpened Taj Mahal</figcaption>
+    </figure>
+    <figure>
+      <img src="media/blurrykid.jpg" alt="Original Taj Mahal">
+      <figcaption>Kid</figcaption>
+    </figure>
+    <figure>
+      <img src="media/kid_sharp.jpg" alt="Sharpened Taj Mahal">
+      <figcaption>Sharpened Kid</figcaption>
+    </figure>
+  </div>
+  <p>With the original image, being quite blurry. I can see some improvements from the original image or perhaps it is all placebo.</p>
+  <h2>Reflection</h2>
+  <p>
+Going in, I thought this project would be similiar to a photoshop workshop. However, this project deepened my understanding of frequency analysis in image processing, including edge detection with filters, noise reduction via Gaussian smoothing, and seamless blending through multiresolution techniques. The hybrid image experiments also highlighted how human perception interprets different frequencies at varying viewing distances, which I found very interesting. </p>
+</body>
+</html>
