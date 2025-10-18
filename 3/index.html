@@ -255,7 +255,42 @@ Now we warp the images using the previously recovered homography matrix. There a
       <img src="pics/mosaic_output.png" alt="">
     </figure>
   </div>
-  <h2>Reflection</h2>
-  <p> TODO </p>
+  <h2>B.1 Harris Corner Detection</h2>
+  <p>Harris corner detection was used to detect keypoints, but this resulted in dense clusters. To get a more even distribution, We used Adaptive Non-Maximal Suppression (ANMS), which filters the initial points by keeping only those that are far from a significantly stronger corner. In the first image there were 5617 corners found and 500 in the second.</p>
+  <div class="gallery">
+    <figure>
+      <img src="pics2/harris_corners.png" alt="">
+    </figure>
+     <figure>
+      <img src="pics2/anms_corners.png" alt="">
+    </figure>
+  </div>
+  <h2>B.2 Feature Descriptor Extraction</h2>
+  <p>For each corner, there is a feature descriptor to capture the local image structure. This involved extracting a 40x40 window, blurring it, and subsampling it to an 8x8 patch. Each patch was then normalized to be robust against changes in brightness and contrast.</p>
+  <div class="gallery">
+    <figure>
+      <img src="pics2/feature_patches.png" alt="" class="large-img">
+    </figure>
+  </div>
+
+  <h2>B.3 Feature Matching</h2>
+  <p>To find corresponding points, I matched feature descriptors between the two images using Euclidean distance. I applied Lowe's ratio test, which rejects ambiguous pairs by comparing the distance of the best match to the second-best match. This filtering step produces a reliable set of correspondences for estimating the image alignment.</p>
+  <div class="gallery">
+    <figure>
+      <img src="pics2/feature_matches1.png" alt="" class="large-img">
+    </figure>
+  </div>
+
+  <h2>B.4 Ransac</h2>
+  <p>To robustly estimate the homography, I implemented a 4-point RANSAC algorithm. This iterative method repeatedly samples four matching pairs, computes a candidate homography, and scores it by counting the number of inlier matches that fit the model. The homography with the largest set of inliers is selected and refined.</p>
+  <div class="gallery3">
+    <figure>
+      <img src="pics2/autoKitchen.png" alt="">
+    </figure>
+    <figure>
+      <img src="pics2/mosaicbould.png" alt="">
+    </figure>
+  </div>
+
 </body>
 </html>
