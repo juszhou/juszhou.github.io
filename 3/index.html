@@ -283,14 +283,26 @@ Now we warp the images using the previously recovered homography matrix. There a
 
   <h2>B.4 Ransac</h2>
   <p>To robustly estimate the homography, I implemented a 4-point RANSAC algorithm. This iterative method repeatedly samples four matching pairs, computes a candidate homography, and scores it by counting the number of inlier matches that fit the model. The homography with the largest set of inliers is selected and refined.</p>
-  <div class="gallery3">
+  <div class="gallery2">
     <figure>
       <img src="pics2/autoKitchen.png" alt="">
     </figure>
     <figure>
+      <img src="pics/kitchen.png" alt="">
+    </figure>
+    <figure>
       <img src="pics2/mosaicbould.png" alt="">
     </figure>
+    <figure>
+      <img src="pics/mosaicboulder.png" alt="">
+    </figure>
+    <figure>
+      <img src="pics/mosaic_output.png" alt="">
+    </figure>
   </div>
+  <p>
+    On the left are the automatically stitched images and on the right are the manually stitched images from part 1. Noticably the kitchen seems to have less blur.
+  </p>
 
 </body>
 </html>
